@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Leaderboard</title>
+</head>
+<body style="text-align:center; font-family:Arial;">
+  <h1>🏆 Car Mash Leaderboard</h1>
+  <table border="1" cellpadding="10" style="margin:auto;">
+    <thead>
+      <tr><th>Rank</th><th>Car</th><th>Score</th></tr>
+    </thead>
+    <tbody id="leaderboard"></tbody>
+  </table>
+  <p><a href="index.html">⬅ Back to Voting</a></p>
+
+  <script>
+    async function loadLeaderboard() {
+      const res = await fetch("/api/leaderboard");
+      const data = await res.json();
+      let rows = "";
+      data.forEach((car, i) => {
+        rows += `
+          <tr>
+            <td>${i + 1}</td>
+            <td><img src="${car.image}" width="120"><br>${car.name}</td>
+            <td>${Math.round(car.score)}</td>
+          </tr>
+        `;
+      });
+      document.getElementById("leaderboard").innerHTML = rows;
+    }
+    loadLeaderboard();
+  </script>
+</body>
+</html>
